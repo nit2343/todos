@@ -5,7 +5,9 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import '@mdi/font/css/materialdesignicons.css';
 import router from './router'; 
+import { createPinia } from 'pinia'
 
+const pinia = createPinia()
 
 const vuetify = createVuetify({
   icons: {
@@ -16,4 +18,5 @@ const vuetify = createVuetify({
 const app = createApp(App);
 app.use(vuetify);
 app.use(router);
+app.use(pinia)
 app.mount('#app');

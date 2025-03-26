@@ -1,13 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import myTask from "./myTask.vue";
+import myTask from "../components/myTask.vue";
+import homePage from "../components/homePage.vue";
 
 const routes = [
   
-//   {
-//     path: "/myTask",
-//     name: "myTask",
-//     component: myTask,
-//   },
+   {
+     path: "/",
+     name: "homePage",
+     component: homePage,
+  },
+   {
+     path: "/myTask",
+     name: "myTask",
+     component: myTask,
+  },
+ 
 ];
 
 const router = createRouter({

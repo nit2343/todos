@@ -9,6 +9,8 @@
         <v-list-item
           v-for="(item, index) in menuItems"
           :key="index"
+          :to="item.to"
+          link
           :class="{ active: activeItem === item.title }"
           @click="setActive(item.title)"
         >
@@ -19,23 +21,19 @@
     </v-navigation-drawer>
   </template>
   
-  <script>
-  export default {
-    data() {
-      return {
-        activeItem: "Home",
-        menuItems: [
-          { title: "Home", icon: "mdi-home" },
-          { title: "My Tasks", icon: "mdi-checkbox-marked" },
-          { title: "Documents", icon: "mdi-file-document" },
-        ],
-      };
-    },
-    methods: {
-      setActive(title) {
-        this.activeItem = title;
-      },
-    },
+  <script setup>
+  import { ref } from "vue";
+  
+  const activeItem = ref("Home");
+  
+  const menuItems = [
+    { title: "Home", icon: "mdi-home", to: "/" },
+    { title: "My Tasks", icon: "mdi-checkbox-marked", to: "/myTask" },
+    { title: "Documents", icon: "mdi-file-document", to: "/documents" },
+  ];
+  
+  const setActive = (title) => {
+    activeItem.value = title;
   };
   </script>
   
