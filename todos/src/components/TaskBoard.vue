@@ -1,67 +1,43 @@
 <template>
     <div class="task-board">
       
-      <!-- ✅ To-do Column -->
+      <!-- To-do Column -->
       <div class="task-column">
-        <h2 class="column-title">To-do</h2>
+        <h2 class="column-title">To-do <i class="bi bi-bookmarks-fill"></i></h2>
         <div class="task-input">
           <input v-model="todoTask.title" placeholder="Task Title" class="input-field">
           <input v-model="todoTask.date" type="date" class="input-field">
           <input v-model.number="todoTask.progress" type="number" min="0" max="100" class="input-field">
-          <button @click="addTaskTodos" class="add-btn">Add Task</button>
+          <button @click="addTaskTodos" class="add-btn"> <i class="bi bi-plus-square"></i> Add Task</button>
         </div>
+
+
+        </div> 
   
-        <div class="task-list">
-          <div v-for="(task, i) in store.todoslist" :key="i" class="task-card">
-            <h3 class="task-title">{{ task.title }}</h3>
-            <p class="task-date">{{ task.date }}</p>
-            <div class="progress-bar">
-              <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- ✅ On Progress Column -->
+      <!-- On Progress Column -->
       <div class="task-column">
-        <h2 class="column-title">On Progress</h2>
+        <h2 class="column-title">On Progress <i class="bi bi-reception-2"></i></h2>
         <div class="task-input">
           <input v-model="progressTask.title" placeholder="Task Title" class="input-field">
           <input v-model="progressTask.date" type="date" class="input-field">
           <input v-model.number="progressTask.progress" type="number" min="0" max="100" class="input-field">
-          <button @click="addTaskOnProgress" class="add-btn">Add Task</button>
+          <button @click="addTaskOnProgress" class="add-btn"> <i class="bi bi-plus-square"></i> Add Task</button>
         </div>
   
-        <div class="task-list">
-          <div v-for="(task, i) in store.onprogress" :key="i" class="task-card">
-            <h3 class="task-title">{{ task.title }}</h3>
-            <p class="task-date">{{ task.date }}</p>
-            <div class="progress-bar">
-              <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
-            </div>
-          </div>
-        </div>
+       
       </div>
   
-      <!-- ✅ Done Column -->
+      <!-- Done Column -->
       <div class="task-column">
-        <h2 class="column-title">Done</h2>
+        <h2 class="column-title">Done <span style="font-size: 16px; position: relative; bottom: 2px;"><i class="bi bi-check-square-fill"></i></span></h2>
         <div class="task-input">
           <input v-model="doneTask.title" placeholder="Task Title" class="input-field">
           <input v-model="doneTask.date" type="date" class="input-field">
           <input v-model.number="doneTask.progress" type="number" min="0" max="100" class="input-field">
-          <button @click="addTaskDone" class="add-btn">Add Task</button>
+          <button @click="addTaskDone" class="add-btn"> <i class="bi bi-plus-square"></i> Add Task</button>
         </div>
   
-        <div class="task-list">
-          <div v-for="(task, i) in store.done" :key="i" class="task-card">
-            <h3 class="task-title">{{ task.title }}</h3>
-            <p class="task-date">{{ task.date }}</p>
-            <div class="progress-bar">
-              <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
-            </div>
-          </div>
-        </div>
+     
       </div>
   
     </div>
@@ -69,16 +45,14 @@
   
   <script setup>
   import { ref } from "vue";
-  import { useWorkStore } from "../stores/workstore";
+  import { useworkstore  } from "../stores/workstore";
   
-  const store = useWorkStore();
-  
-  // ✅ Alag-Alag Inputs for Each Column
+  const store = useworkstore ();
+
   const todoTask = ref({ title: "", date: "", progress: 0 });
   const progressTask = ref({ title: "", date: "", progress: 0 });
   const doneTask = ref({ title: "", date: "", progress: 0 });
   
-  // ✅ Functions to Add Tasks
   const addTaskTodos = () => {
     if (!todoTask.value.title || !todoTask.value.date) return;
     store.addTaskTodos({ ...todoTask.value });
@@ -98,8 +72,12 @@
   };
   </script>
   
-  <style>
-  /* 🟣 Task Board */
+  <style scoped>
+  .bi-bookmarks-fill{
+    font-size: 16px;
+    position: relative;
+    bottom: 2px;
+  }
   .column-title {
     color: white;
   }

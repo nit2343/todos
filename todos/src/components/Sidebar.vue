@@ -29,7 +29,7 @@
   const menuItems = [
     { title: "Home", icon: "mdi-home", to: "/" },
     { title: "My Tasks", icon: "mdi-checkbox-marked", to: "/myTask" },
-    { title: "Documents", icon: "mdi-file-document", to: "/documents" },
+    { title: "Documents", icon: "mdi-file-document", to: "/document" },
   ];
   
   const setActive = (title) => {

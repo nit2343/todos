@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const useWorkStore = defineStore("workStore", () => {
+export const useworkstore  = defineStore("workStore", () => {
 
   const todoslist = ref([]);
   const onprogress = ref([]);
