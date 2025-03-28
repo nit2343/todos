@@ -107,12 +107,13 @@
   }
   
   .input-field {
-    padding: 8px;
+    padding: 12px;
     border-radius: 5px;
     border: none;
     font-size: 14px;
     background: #32344A;
     color: white;
+    height: 60px;
   }
   
   .add-btn {

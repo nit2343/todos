@@ -1,5 +1,5 @@
 <template>
-  <header class="topbar">
+  <header class="topbar" :class="{ 'dark-mode': isDarkMode }">
     <!-- 🖼️ Logo Positioned Left -->
     <div class="logo-container">
   <img src="../images/tasks.png" class="logo" />
@@ -51,13 +51,16 @@ import { ref } from "vue";
 
 const isDropdownOpen = ref(false);
 
+const isDarkMode = ref(false); 
+
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
 const toggleDarkMode = () => {
-  document.body.classList.toggle("dark-mode");
+  isDarkMode.value = !isDarkMode.value; 
 };
+
 
 const viewProfile = () => {
   alert("Profile page coming soon!");
@@ -84,6 +87,11 @@ const logout = () => {
   display: flex;
   align-items: center;
   gap: 20px; /* ✅ Perfect gap between image & text */
+}
+
+.dark-mode {
+  background-color: white !important;
+  color: black !important;
 }
 
 h3 {
@@ -211,4 +219,5 @@ h3 {
   background-color: #121212;
   color: white;
 }
+
 </style>

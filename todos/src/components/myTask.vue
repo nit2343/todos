@@ -105,7 +105,7 @@ const removeTask = (index, from) => {
 };
 </script>
 
-<style>
+<style>   
 /* Basic Styles */
 .bi-bookmarks-fill,
 .bi-reception-2,
