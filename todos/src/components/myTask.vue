@@ -1,84 +1,112 @@
 <template>
-    <div class="task-board">
-      <v-row class="task-row">
-        <!-- To-do Column -->
-        <v-col cols="12" md="4">
-          <div class="task-column">
-            <h2 class="column-title">To-do <i class="bi bi-bookmarks-fill"></i></h2>
-            <v-row v-if="workstore.todoslist.length === 0" justify="center" class="mt-7">
-              <v-col cols="12" class="text-center">
-                <h3 class="empty-text">Your Todos is Empty</h3>
-              </v-col>
-            </v-row>
-            <v-row v-else>
-              <v-col v-for="(todo, index) in workstore.todoslist" :key="index" cols="12">
-                <div class="task-card">
-                  <h3 class="task-title">{{ todo.title }}</h3>
-                  <p class="task-date">{{ todo.date }}</p>
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: todo.progress + '%' }"></div>
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
+  <div class="task-board">
+    <v-row class="task-row">
+      <!-- To-do Column -->
+      <v-col cols="12" md="4">
+        <div class="task-column" @dragover.prevent @drop="dropTask('todoslist')">
+          <h2 class="column-title">To-do <i class="bi bi-bookmarks-fill"></i></h2>
+          <div v-if="workstore.todoslist.length === 0" class="empty-text mt-7">Your Todos is Empty</div>
+          <div v-else>
+            <div v-for="(task, index) in workstore.todoslist" 
+              :key="index" 
+              class="task-card" 
+              draggable="true" 
+              @dragstart="dragTask(task, 'todoslist')">
+              <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <button class="delete-btn" @click="removeTask(index, 'todoslist')"><i class="bi bi-x"></i> </button>
+              </div>
+              <p class="task-date">{{ task.date }}</p>
+              <div class="progress-bar">
+                <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
+              </div>
+            </div>
           </div>
-        </v-col>
+        </div>
+      </v-col>
 
-        <!-- On Progress Column -->
-        <v-col cols="12" md="4">
-          <div class="task-column">
-            <h2 class="column-title">On Progress <i class="bi bi-reception-2"></i></h2>
-            <v-row v-if="workstore.onprogress.length === 0" justify="center" class="mt-7">
-              <v-col cols="12" class="text-center">
-                <h3 class="empty-text">Your OnProgress  list is Empty</h3>
-              </v-col>
-            </v-row>
-            <v-row v-else>
-              <v-col v-for="(todo, index) in workstore.onprogress" :key="index" cols="12">
-                <div class="task-card">
-                  <h3 class="task-title">{{ todo.title }}</h3>
-                  <p class="task-date">{{ todo.date }}</p>
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: todo.progress + '%' }"></div>
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
+      <!-- On Progress Column -->
+      <v-col cols="12" md="4">
+        <div class="task-column" @dragover.prevent @drop="dropTask('onprogress')">
+          <h2 class="column-title">On Progress <i class="bi bi-reception-2"></i></h2>
+          <div v-if="workstore.onprogress.length === 0" class="empty-text mt-7">Your OnProgress list is Empty</div>
+          <div v-else>
+            <div v-for="(task, index) in workstore.onprogress" 
+              :key="index" 
+              class="task-card" 
+              draggable="true" 
+              @dragstart="dragTask(task, 'onprogress')">
+              <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <button class="delete-btn" @click="removeTask(index, 'onprogress')">🗑</button>
+              </div>
+              <p class="task-date">{{ task.date }}</p>
+              <div class="progress-bar">
+                <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
+              </div>
+            </div>
           </div>
-        </v-col>
+        </div>
+      </v-col>
 
-        <!-- Done Column -->
-        <v-col cols="12" md="4">
-          <div class="task-column">
-            <h2 class="column-title">Done <i class="bi bi-check-square-fill"></i></h2>
-            <v-row v-if="workstore.done.length === 0" justify="center" class="mt-7">
-              <v-col cols="12" class="text-center">
-                <h3 class="empty-text">Your Done list is Empty</h3>
-              </v-col>
-            </v-row>
-            <v-row v-else>
-              <v-col v-for="(todo, index) in workstore.done" :key="index" cols="12">
-                <div class="task-card">
-                  <h3 class="task-title">{{ todo.title }}</h3>
-                  <p class="task-date">{{ todo.date }}</p>
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: todo.progress + '%' }"></div>
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
+      <!-- Done Column -->
+      <v-col cols="12" md="4">
+        <div class="task-column" @dragover.prevent @drop="dropTask('done')">
+          <h2 class="column-title">Done <i class="bi bi-check-square-fill"></i></h2>
+          <div v-if="workstore.done.length === 0" class="empty-text mt-7">Your Done list is Empty</div>
+          <div v-else>
+            <div v-for="(task, index) in workstore.done" 
+              :key="index" 
+              class="task-card" 
+              draggable="true" 
+              @dragstart="dragTask(task, 'done')">
+              <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <button class="delete-btn" @click="removeTask(index, 'done')">🗑</button>
+              </div>
+              <p class="task-date">{{ task.date }}</p>
+              <div class="progress-bar">
+                <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
+              </div>
+            </div>
           </div>
-        </v-col>
-      </v-row>
-    </div>
+        </div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script setup>
 import { useworkstore } from "../stores/workstore";
+
 const workstore = useworkstore();
+let draggedTask = null;
+let draggedFrom = null;
+
+// 🟢 Task Drag Karna Start
+const dragTask = (task, from) => {
+  draggedTask = task;
+  draggedFrom = from;
+};
+
+// 🔵 Task Drop Karna (Move to New List)
+const dropTask = (to) => {
+  if (draggedTask && draggedFrom !== to) {
+    workstore[draggedFrom] = workstore[draggedFrom].filter(task => task !== draggedTask);
+    workstore[to].push(draggedTask);
+    draggedTask = null;
+    draggedFrom = null;
+  }
+};
+
+// 🗑 Task Remove Karna
+const removeTask = (index, from) => {
+  workstore[from].splice(index, 1);
+};
 </script>
 
 <style>
+/* Basic Styles */
 .bi-bookmarks-fill,
 .bi-reception-2,
 .bi-check-square-fill {
@@ -115,6 +143,13 @@ const workstore = useworkstore();
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 12px;
+  cursor: grab;
+  position: relative;
+}
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .task-title {
   font-size: 16px;
@@ -140,5 +175,12 @@ const workstore = useworkstore();
 .empty-text {
   color: white;
   text-align: center;
+}
+.delete-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
